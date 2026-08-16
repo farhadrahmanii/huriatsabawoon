@@ -1,0 +1,55 @@
+/* Bahij Helvetica Neue -- Persian typeface for the fa/ pages.
+   Loaded after the template bundle so it wins on specificity ties. */
+
+@font-face {
+    font-family: 'Bahij Helvetica Neue';
+    src: url('../fonts/BahijHelveticaNeue-Roman.woff2') format('woff2'),
+         url('../fonts/BahijHelveticaNeue-Roman.woff') format('woff'),
+         url('../fonts/BahijHelveticaNeue-Roman.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: 'Bahij Helvetica Neue', Tahoma, Arial, sans-serif;
+}
+
+/* The template hard-codes Latin families on these, which would otherwise
+   fall back to Tahoma for Persian text. Let them inherit from body. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+button,
+select,
+textarea,
+.navbar-search .search-query,
+#menusys_mega .menu-desc,
+#menusys_mega .megacol ul li a .menu-title,
+.tp-button,
+.shead,
+.shead h5,
+.rb-items-botton,
+div.shortcode-block-quote-left {
+    font-family: inherit;
+}
+
+/* Slider captions set Oswald with !important. */
+.tp-caption.customfont_black,
+.tp-caption.customfont_white,
+.tp-caption.customfont_grey,
+.tp-caption.customfont_color {
+    font-family: 'Bahij Helvetica Neue', Tahoma, Arial, sans-serif !important;
+}
+
+/* Monospace stays monospace. */
+code,
+pre,
+kbd,
+samp {
+    font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+}
