@@ -1,0 +1,1011 @@
+/* ==========================================================================
+   Huriat Sabawoon -- modern theme layer
+   --------------------------------------------------------------------------
+   Loaded last, on top of the original Zo2/Bootstrap-2 template. It restyles
+   the existing markup rather than replacing it, so every page, link and
+   language section keeps working exactly as before.
+
+   The template ships an inline <style> block in each page <head> that sets
+   colours on #bd, #zt-header, #zt-userwrap8 and #zt-footer with `div#id`
+   specificity. Rules that need to beat it are prefixed with `body#bd`.
+   ========================================================================== */
+
+/* --------------------------------------------------------------- 1. tokens */
+
+:root {
+    /* Brand navy, rebalanced into a usable scale */
+    --navy-900: #041f4a;
+    --navy-800: #062c66;
+    --navy-700: #00388c;
+    --navy-600: #14479e;
+    --navy-100: #e8eefb;
+
+    /* Brand orange, reserved for actions and accents */
+    --orange-500: #ff6900;
+    --orange-600: #e85e00;
+    --orange-100: #fff1e6;
+
+    /* Neutrals */
+    --ink: #14243d;
+    --body-text: #4a5568;
+    --muted: #77859d;
+    --line: #e4e8f0;
+    --surface: #ffffff;
+    --surface-2: #f6f8fc;
+
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                 "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+
+    --r-sm: 6px;
+    --r: 10px;
+    --r-lg: 18px;
+    --r-pill: 999px;
+
+    --shadow-sm: 0 1px 2px rgba(10, 30, 70, .06), 0 1px 3px rgba(10, 30, 70, .08);
+    --shadow-md: 0 4px 14px rgba(10, 30, 70, .08), 0 2px 4px rgba(10, 30, 70, .04);
+    --shadow-lg: 0 18px 44px rgba(10, 30, 70, .13), 0 4px 10px rgba(10, 30, 70, .06);
+
+    --ease: cubic-bezier(.4, 0, .2, 1);
+    --band: clamp(56px, 7vw, 96px);
+}
+
+/* Persian and Pashto get the self-hosted Bahij face; @font-face lives in
+   persian.css, which is linked ahead of this file on those pages. */
+html[lang^="fa"],
+html[lang^="ps"] {
+    --font-sans: "Bahij Helvetica Neue", Tahoma, Arial, sans-serif;
+}
+
+/* ----------------------------------------------------------- 2. base/reset */
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body#bd {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--body-text);
+    background: var(--surface);
+    background-image: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+}
+
+body#bd a {
+    color: var(--navy-700);
+    text-decoration: none;
+    transition: color .18s var(--ease);
+}
+
+body#bd a:hover,
+body#bd a:focus {
+    color: var(--orange-500);
+}
+
+::selection {
+    background: var(--navy-700);
+    color: #fff;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Visible keyboard focus -- the original template had none. */
+body#bd a:focus-visible,
+body#bd button:focus-visible,
+body#bd input:focus-visible,
+body#bd textarea:focus-visible,
+body#bd select:focus-visible {
+    outline: 3px solid var(--orange-500);
+    outline-offset: 2px;
+    border-radius: var(--r-sm);
+}
+
+/* ---------------------------------------------------------- 3. typography */
+
+body#bd h1,
+body#bd h2,
+body#bd h3,
+body#bd h4,
+body#bd h5,
+body#bd h6 {
+    font-family: var(--font-sans);
+    color: var(--ink);
+    font-weight: 700;
+    line-height: 1.22;
+    letter-spacing: -.015em;
+    margin: 0 0 .5em;
+}
+
+body#bd h1 { font-size: clamp(30px, 4vw, 46px); }
+body#bd h2 { font-size: clamp(25px, 3vw, 34px); }
+body#bd h3 { font-size: clamp(21px, 2.2vw, 26px); }
+body#bd h4 { font-size: 19px; }
+
+body#bd p {
+    margin: 0 0 1.15em;
+}
+
+/* Persian and Pashto set tighter tracking badly at Latin values. */
+html[lang^="fa"] body#bd h1,
+html[lang^="fa"] body#bd h2,
+html[lang^="fa"] body#bd h3,
+html[lang^="ps"] body#bd h1,
+html[lang^="ps"] body#bd h2,
+html[lang^="ps"] body#bd h3 {
+    letter-spacing: 0;
+    line-height: 1.45;
+}
+
+/* ------------------------------------------------------------- 4. layout */
+
+.container {
+    width: auto;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 24px;
+    box-sizing: border-box;
+}
+
+/* Bootstrap 2 floats the .spanN grid and never truly stacks it below
+   768px in this build. Convert the page-level rows to real grid so the
+   columns reflow on every screen size. */
+#zt-userwrap8-inner2,
+#zt-footer-inner,
+#zt-userwrap2-inner {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+    gap: clamp(24px, 3vw, 40px);
+    align-items: start;
+}
+
+#zt-userwrap8-inner2 > [class*="span"],
+#zt-footer-inner > [class*="span"],
+#zt-userwrap2-inner > [class*="span"] {
+    width: auto;
+    min-height: 0;
+    margin: 0;
+    float: none;
+}
+
+#zt-userwrap8-inner2 > .clearfix,
+#zt-footer-inner > .clearfix,
+#zt-userwrap2-inner > .clearfix {
+    display: none;
+}
+
+/* ------------------------------------------------------------- 5. header */
+
+body#bd div#zt-header {
+    background: var(--surface);
+    background-image: none;
+    border-bottom: 1px solid var(--line);
+    color: var(--body-text);
+}
+
+body#bd div#zt-header a {
+    color: var(--navy-700);
+}
+
+#zt-header-inner {
+    position: relative;
+    padding-block: 6px 14px;
+}
+
+#zt-header-top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 34px;
+}
+
+/* Language switcher -- flags as tidy pills instead of loose gifs */
+#zt-language {
+    width: auto;
+    float: none;
+    margin: 0;
+    font-size: 12px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+#zt-language .custom {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+#zt-language a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 26px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    background: var(--surface);
+    transition: transform .18s var(--ease), box-shadow .18s var(--ease),
+                border-color .18s var(--ease);
+}
+
+#zt-language a:empty {
+    display: none;
+}
+
+#zt-language a:hover {
+    transform: translateY(-2px);
+    border-color: var(--navy-700);
+    box-shadow: var(--shadow-sm);
+}
+
+#zt-language img {
+    display: block;
+    width: 18px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+/* Logo */
+#zt-logo {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+
+#zt-logo-image img {
+    height: clamp(96px, 12vw, 150px);
+    width: auto;
+    transition: transform .3s var(--ease);
+}
+
+#zt-logo-image:hover img {
+    transform: scale(1.03);
+}
+
+/* Search toggle */
+#zt-top-action {
+    position: absolute;
+    inset-block-start: 8px;
+    inset-inline-end: 24px;
+}
+
+#zt-top-action a#search {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: var(--r-pill);
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    transition: background .18s var(--ease), border-color .18s var(--ease);
+}
+
+#zt-top-action a#search:hover {
+    background: var(--navy-100);
+    border-color: var(--navy-700);
+}
+
+#zt-searchform-inner {
+    margin-top: 10px;
+    padding: 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: var(--shadow-lg);
+}
+
+#zt-searchform-inner input[type="text"],
+#zt-searchform-inner .inputbox {
+    width: 100%;
+    height: 42px;
+    padding-inline: 14px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-sm);
+    box-shadow: none;
+    box-sizing: border-box;
+    transition: border-color .18s var(--ease), box-shadow .18s var(--ease);
+}
+
+#zt-searchform-inner input[type="text"]:focus {
+    border-color: var(--navy-700);
+    box-shadow: 0 0 0 3px var(--navy-100);
+    outline: none;
+}
+
+/* --------------------------------------------------------- 6. main nav */
+
+#zt-header-bottom {
+    position: sticky;
+    top: 0;
+    z-index: 900;
+    background: var(--navy-800);
+    background-image: linear-gradient(100deg, var(--navy-900), var(--navy-700));
+    box-shadow: 0 2px 14px rgba(4, 31, 74, .22);
+}
+
+#zt-mainmenu,
+#zt-mainmenu-inner {
+    width: auto;
+    float: none;
+    margin: 0;
+}
+
+ul#menusys_mega {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: none;
+}
+
+ul#menusys_mega > li {
+    position: relative;
+    float: none;
+    margin: 0;
+    background: none;
+    border: 0;
+}
+
+/* The bar and its items are pinned to 50px, so anchors overflow it. */
+#zt-mainmenu,
+#zt-mainmenu-inner,
+.menusys_mega,
+ul#menusys_mega,
+ul#menusys_mega > li {
+    height: auto;
+    min-height: 0;
+    line-height: normal;
+}
+
+ul#menusys_mega > li > a {
+    position: relative;
+    display: block;
+    padding: 0 20px;
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    /* The template forces #F26522 with !important on .hover and .active. */
+    color: rgba(255, 255, 255, .82) !important;
+    background: none;
+    border: 0;
+    text-shadow: none;
+    transition: color .2s var(--ease), background-color .2s var(--ease);
+}
+
+/* The inner spans are locked to a 50px line-height box and floated, which
+   fights any padding set on the anchor. Let them size to the anchor. */
+#menusys_mega li span.no-image,
+#menusys_mega .menu-title {
+    float: none;
+    width: auto;
+    height: auto;
+    padding: 0;
+    line-height: 54px;
+}
+
+ul#menusys_mega > li > a::after {
+    content: "";
+    position: absolute;
+    inset-inline: 20px;
+    bottom: 10px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--orange-500);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform .25s var(--ease);
+}
+
+ul#menusys_mega > li:hover > a,
+ul#menusys_mega > li.hover > a,
+ul#menusys_mega > li.active > a,
+ul#menusys_mega > li > a.active {
+    color: #fff !important;
+    background: rgba(255, 255, 255, .07);
+}
+
+ul#menusys_mega > li:hover > a::after,
+ul#menusys_mega > li.hover > a::after,
+ul#menusys_mega > li.active > a::after,
+ul#menusys_mega > li > a.active::after {
+    transform: scaleX(1);
+}
+
+/* The dropdown-open state sets a light box-shadow meant for a white bar. */
+#menusys_mega li.hover > a {
+    box-shadow: none;
+    border-radius: 0;
+}
+
+/* Items with a submenu get a chevron */
+ul#menusys_mega > li.hasChild > a .menu-title::after {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin-inline-start: 8px;
+    vertical-align: 2px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    opacity: .7;
+}
+
+/* Dropdowns as floating cards */
+#menusys_mega .menusub_mega {
+    padding-top: 8px;
+}
+
+#menusys_mega .submenu-wrap {
+    min-width: 232px;
+    padding: 8px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r);
+    box-shadow: var(--shadow-lg);
+}
+
+#menusys_mega .subwraptop,
+#menusys_mega .subwrapbottom {
+    display: none;
+}
+
+#menusys_mega .subwrapcenter-left,
+#menusys_mega .subwrapcenter-right,
+#menusys_mega .subwrapcenter,
+#menusys_mega .megacol {
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    width: auto;
+}
+
+#menusys_mega .mega-ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#menusys_mega .mega-li {
+    margin: 0;
+    background: none;
+    border: 0;
+}
+
+/* Matches the template's own `#menusys_mega .megacol ul li a` weight. */
+#menusys_mega .megacol ul li.mega-li > a {
+    display: block;
+    height: auto;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: var(--r-sm);
+    font-size: 14.5px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--ink);
+    background: none;
+    transition: background-color .16s var(--ease), color .16s var(--ease),
+                padding-inline-start .16s var(--ease);
+}
+
+#menusys_mega .megacol ul li.mega-li > a:hover {
+    background: var(--navy-100);
+    color: var(--navy-700);
+    padding-inline-start: 18px;
+}
+
+#menusys_mega .megacol ul li a span.no-image,
+#menusys_mega .megacol ul li a .menu-title {
+    height: auto;
+    line-height: 1.5;
+    padding: 0;
+    font-family: inherit;
+    font-weight: inherit;
+}
+
+/* --------------------------------------------------- 7. mobile navigation */
+
+.zt-navigation.hidden-desktop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 12px 24px;
+    background: var(--navy-800);
+}
+
+.zt-navigation h3 {
+    margin: 0;
+    font-size: 14px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+a#mobile-button.btn-navbar {
+    position: relative;
+    width: 44px;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+    background: rgba(255, 255, 255, .1);
+    border: 1px solid rgba(255, 255, 255, .18);
+    border-radius: var(--r-sm);
+    box-shadow: none;
+    text-shadow: none;
+}
+
+a#mobile-button.btn-navbar::before,
+a#mobile-button.btn-navbar::after,
+a#mobile-button.btn-navbar > span {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    height: 2px;
+    border-radius: 2px;
+    background: #fff;
+    transition: transform .25s var(--ease), opacity .2s var(--ease);
+}
+
+a#mobile-button.btn-navbar::before { top: 13px; }
+a#mobile-button.btn-navbar::after { bottom: 13px; }
+a#mobile-button.btn-navbar > span { top: 19px; }
+
+a#mobile-button.btn-navbar:not(.collapsed)::before {
+    transform: translateY(6px) rotate(45deg);
+}
+
+a#mobile-button.btn-navbar:not(.collapsed)::after {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+a#mobile-button.btn-navbar:not(.collapsed) > span {
+    opacity: 0;
+}
+
+.zt-drillmenu-inner {
+    background: var(--navy-900);
+}
+
+.zt-drillmenu-inner .navbar a {
+    display: block;
+    padding: 12px 24px;
+    color: rgba(255, 255, 255, .85);
+    border-bottom: 1px solid rgba(255, 255, 255, .07);
+    font-size: 15px;
+}
+
+.zt-drillmenu-inner .navbar a:hover {
+    background: rgba(255, 255, 255, .06);
+    color: #fff;
+}
+
+/* ----------------------------------------------------------- 8. slideshow */
+
+#zt-slideshow {
+    position: relative;
+    background: var(--navy-900);
+}
+
+/* Soft vignette so caption text stays readable over any slide.
+   pointer-events:none keeps the slider's own controls clickable. */
+#zt-slideshow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg,
+                rgba(4, 31, 74, .28) 0%,
+                rgba(4, 31, 74, 0) 38%,
+                rgba(4, 31, 74, .34) 100%);
+    z-index: 2;
+}
+
+#zt-slideshow .tp-caption {
+    font-family: var(--font-sans) !important;
+    letter-spacing: -.01em;
+    text-shadow: 0 2px 18px rgba(4, 31, 74, .45);
+}
+
+#zt-slideshow .tparrows {
+    border-radius: var(--r-pill);
+    opacity: .85;
+    transition: opacity .2s var(--ease), transform .2s var(--ease);
+}
+
+#zt-slideshow .tparrows:hover {
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+/* --------------------------------------------------------- 9. content bands */
+
+#zt-userwrap2,
+#zt-userwrap8,
+#zt-mainframe {
+    padding-block: var(--band);
+}
+
+/* The .patternN helpers tile a texture with !important. */
+body#bd[class*="pattern"],
+body#bd #zt-header[class*="pattern"],
+body#bd #zt-userwrap2[class*="pattern"],
+body#bd #zt-userwrap8[class*="pattern"],
+body#bd #zt-footer[class*="pattern"] {
+    background-image: none !important;
+}
+
+#zt-userwrap2 {
+    background: var(--surface);
+}
+
+body#bd div#zt-userwrap8 {
+    background: var(--surface-2);
+    background-image: none;
+    border-top: 1px solid var(--line);
+    color: var(--body-text);
+}
+
+body#bd div#zt-userwrap8 a {
+    color: var(--navy-700);
+}
+
+body#bd div#zt-userwrap8 a:hover {
+    color: var(--orange-500);
+}
+
+/* Module titles get an accent rule instead of the old flat heading */
+body#bd h3.moduletitle,
+body#bd div#zt-header h3.moduletitle,
+body#bd div#zt-userwrap8 h3.moduletitle {
+    position: relative;
+    margin: 0 0 20px;
+    padding-bottom: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: none;
+    border: 0;
+}
+
+body#bd h3.moduletitle span {
+    background: none;
+    padding: 0;
+}
+
+body#bd h3.moduletitle::after {
+    content: "";
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-start: 0;
+    width: 46px;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--orange-500);
+}
+
+/* The three-up band becomes real cards */
+#zt-userwrap8-inner2 .zt-box-inside {
+    height: 100%;
+    padding: 30px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-sm);
+    box-sizing: border-box;
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease),
+                border-color .25s var(--ease);
+}
+
+#zt-userwrap8-inner2 .zt-box-inside:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: transparent;
+}
+
+#zt-userwrap8-inner2 .moduletable,
+#zt-userwrap8-inner2 .omodule,
+#zt-userwrap8-inner2 .cmodule {
+    background: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+#zt-userwrap8-inner2 img {
+    border-radius: var(--r);
+    display: block;
+}
+
+#zt-userwrap8-inner2 a img {
+    transition: transform .3s var(--ease), filter .3s var(--ease);
+}
+
+#zt-userwrap8-inner2 a:hover img {
+    transform: scale(1.02);
+    filter: saturate(1.08);
+}
+
+/* ------------------------------------------------------ 10. article pages */
+
+#zt-mainframe {
+    background: var(--surface);
+}
+
+article.item-page,
+#zt-component-inner {
+    font-size: 16.5px;
+    line-height: 1.78;
+    color: var(--body-text);
+}
+
+article.item-page > header h1,
+article.item-page h1 {
+    margin-bottom: .55em;
+    padding-bottom: .4em;
+    border-bottom: 1px solid var(--line);
+}
+
+article.item-page img {
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-md);
+    margin-block: 8px 22px;
+}
+
+article.item-page ul,
+article.item-page ol {
+    padding-inline-start: 1.4em;
+    margin-bottom: 1.2em;
+}
+
+article.item-page li {
+    margin-bottom: .45em;
+}
+
+/* Right-to-left reading for the Persian and Pashto content. The template
+   markup is flagged ltr, so scope this to the article body rather than
+   mirroring the whole page chrome. */
+html[lang^="fa"] article.item-page,
+html[lang^="ps"] article.item-page,
+html[lang^="fa"] #zt-component-inner,
+html[lang^="ps"] #zt-component-inner {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Breadcrumbs */
+.zt-breadcrumbs-inside {
+    padding-block: 14px;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--line);
+}
+
+.breadcrumbs ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 13px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.breadcrumbs li {
+    margin: 0;
+    background: none;
+}
+
+.breadcrumbs a.pathway {
+    color: var(--navy-700);
+    font-weight: 600;
+}
+
+.breadcrumbs .separator {
+    color: var(--line);
+}
+
+/* ----------------------------------------------------------- 11. buttons */
+
+body#bd .btn,
+body#bd .button,
+body#bd .readmore a,
+body#bd input[type="submit"],
+body#bd .tp-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 26px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--orange-500);
+    background-image: none;
+    border: 0;
+    border-radius: var(--r-pill);
+    box-shadow: 0 6px 16px rgba(255, 105, 0, .28);
+    text-shadow: none;
+    cursor: pointer;
+    transition: background-color .2s var(--ease), transform .2s var(--ease),
+                box-shadow .2s var(--ease);
+}
+
+body#bd .btn:hover,
+body#bd .button:hover,
+body#bd .readmore a:hover,
+body#bd input[type="submit"]:hover,
+body#bd .tp-button:hover {
+    background: var(--orange-600);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(255, 105, 0, .34);
+}
+
+/* ------------------------------------------------------------ 12. footer */
+
+body#bd div#zt-footer {
+    padding-block: 34px;
+    background: var(--navy-900);
+    background-image: none;
+    color: rgba(255, 255, 255, .62);
+    border: 0;
+    font-size: 14px;
+}
+
+body#bd div#zt-footer a {
+    color: rgba(255, 255, 255, .9);
+}
+
+body#bd div#zt-footer a:hover {
+    color: var(--orange-500);
+}
+
+#zt-footer-copy {
+    text-align: center;
+    letter-spacing: .02em;
+}
+
+/* Back to top */
+body#bd a#gototop {
+    position: fixed;
+    inset-block-end: 26px;
+    inset-inline-end: 26px;
+    z-index: 950;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    background: var(--navy-700);
+    border-radius: var(--r-pill);
+    box-shadow: var(--shadow-lg);
+    transition: background-color .2s var(--ease), transform .2s var(--ease);
+}
+
+body#bd a#gototop:hover {
+    background: var(--orange-500);
+    transform: translateY(-3px);
+}
+
+body#bd a#gototop span {
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin-top: 4px;
+    border-top: 2px solid #fff;
+    border-left: 2px solid #fff;
+    transform: rotate(45deg);
+    text-indent: -9999px;
+    overflow: hidden;
+}
+
+/* The vendored colour-picker widget is never used on this site. */
+#mColorPicker,
+#mColorPickerBg,
+#mColorPickerTest {
+    display: none !important;
+}
+
+/* -------------------------------------------------------- 13. small screens */
+
+@media (max-width: 820px) {
+    #zt-header-top {
+        justify-content: center;
+    }
+
+    #zt-top-action {
+        inset-block-start: 4px;
+        inset-inline-end: 16px;
+    }
+
+    ul#menusys_mega > li > a {
+        padding: 13px 14px;
+        font-size: 12.5px;
+        letter-spacing: .06em;
+    }
+
+    ul#menusys_mega > li > a::after {
+        inset-inline: 14px;
+        bottom: 7px;
+    }
+
+    #zt-userwrap8-inner2 .zt-box-inside {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 520px) {
+    body#bd {
+        font-size: 15.5px;
+    }
+
+    .container {
+        padding-inline: 18px;
+    }
+
+    body#bd a#gototop {
+        inset-block-end: 16px;
+        inset-inline-end: 16px;
+        width: 42px;
+        height: 42px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    body#bd *,
+    body#bd *::before,
+    body#bd *::after {
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
+    }
+}
+
+/* ------------------------------------------------------------- 14. print */
+
+@media print {
+    #zt-header-bottom,
+    #zt-slideshow,
+    #zt-top-action,
+    #zt-language,
+    a#gototop {
+        display: none !important;
+    }
+
+    body#bd {
+        font-size: 12pt;
+        color: #000;
+    }
+}

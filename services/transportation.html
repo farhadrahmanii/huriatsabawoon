@@ -82,7 +82,6 @@
     <script>window.addEvent('load', function () { new JCaption('img.caption'); }); window.addEvent('domready', function () { SqueezeBox.initialize({}); SqueezeBox.assign($$('a.modal'), { parse: 'rel' }); });</script>
     <meta name=viewport content="width=device-width, minimum-scale=1, maximum-scale=1">
     <link href=../favicon.ico rel="shortcut icon" type=image/vnd.microsoft.icon />
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700' rel=stylesheet>
     <style>
         h1,
         h2,
@@ -94,6 +93,7 @@
         }
     </style>
     <script>$ZO2(document).ready(function () { var megas = $ZO2('div[class="menusub_mega"]'); var _tmp = Array(); $ZO2.each(megas, function (key, item) { var id = $ZO2(item).attr('id').split("_"); if (id[2] != null) { var smart = "_" + id[1] + "_" + id[2]; if ($ZO2.inArray(smart, _tmp)) { $ZO2.merge(_tmp, Array(smart)); ZTMenu(smart, "megamenu_close", 'show', '350', 'hide', '350', 'ltr'); } } }); $ZO2.each($ZO2('ul#menusys_mega li'), function (i, item) { $ZO2(item).mouseenter(function () { $ZO2(item).addClass('hover'); }).mouseleave(function () { $ZO2(item).removeClass('hover'); }); }); $ZO2(document).ready(function () { $ZO2("#zo2-drilldown-menu").mtAccordionMenu({ accordion: true, speed: 500, closedSign: 'collapse', openedSign: 'expand', mouseType: 0, easing: 'easeInOutBack' }); }); });</script>
+<link rel="stylesheet" href="../css/theme.css" />
 </head>
 
 <body id=bd class="fs12 ltr clearfix  pattern0">
